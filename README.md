@@ -1,6 +1,24 @@
 # babel-plugin-flow-comments
 
-Turn flow type annotations into comments
+Turn flow type annotations into comments.
+
+http://flowtype.org/blog/2015/02/20/Flow-Comments.html
+
+## Example
+
+**In**
+
+```javascript
+function foo(x: number): string {}
+```
+
+**Out**
+
+```javascript
+"use strict";
+
+function foo(x /*: number*/) /*: string*/ {}
+```
 
 ## Installation
 
