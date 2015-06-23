@@ -1,12 +1,7 @@
 export default function ({ Plugin, types: t }) {
   return new Plugin("flow-comments", {
     visitor: {
-      FlowDeclaration() {
-        this.addComment("leading", ":: " + this.getSource());
-        this.dangerouslyRemove();
-      },
-
-      Flow() {
+      Flow(node, parent, scope, file) {
         var comment = this.getSource();
         if (comment[0] !== ":") comment = ":: " + comment;
         this.addComment("trailing", comment);
