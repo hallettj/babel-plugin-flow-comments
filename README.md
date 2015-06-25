@@ -9,7 +9,12 @@ http://flowtype.org/blog/2015/02/20/Flow-Comments.html
 **In**
 
 ```javascript
+function foo(bar?) {}
+function foo2(bar?: string) {}
 function foo(x: number): string {}
+type B = {
+  name: string;
+};
 ```
 
 **Out**
@@ -17,7 +22,12 @@ function foo(x: number): string {}
 ```javascript
 "use strict";
 
+function foo(bar /*:: ?*/) {}
+function foo2(bar /*:: ?: string*/) {}
 function foo(x /*: number*/) /*: string*/ {}
+/*:: type B = {
+  name: string;
+};*/
 ```
 
 ## Installation
