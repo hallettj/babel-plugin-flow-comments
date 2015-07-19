@@ -2,6 +2,8 @@
 
 Turn flow type annotations into comments.
 
+When using this plugin, you might want to also blacklist the `flow` transformer to preserve the `/* @flow */` directive.
+
 http://flowtype.org/blog/2015/02/20/Flow-Comments.html
 
 ## Example
@@ -44,20 +46,22 @@ $ npm install babel-plugin-flow-comments
 
 ```json
 {
-  "plugins": ["flow-comments"]
+  "plugins": ["flow-comments"],
+  "blacklist": ["flow"]
 }
 ```
 
 ### Via CLI
 
 ```sh
-$ babel --plugins flow-comments script.js
+$ babel --plugins flow-comments --blacklist flow script.js
 ```
 
 ### Via Node API
 
 ```javascript
 require("babel-core").transform("code", {
-  plugins: ["flow-comments"]
+  plugins: ["flow-comments"],
+  blacklist: ["flow"]
 });
 ```
