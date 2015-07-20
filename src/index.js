@@ -1,4 +1,12 @@
 export default function ({ Plugin, types: t }) {
+  function wrapInFlowComment(context, parent) {
+    var comment = context.getSource().replace("*/","//");
+    if (parent.optional) comment = "?" + comment;
+    if (comment[0] !== ":") comment = ":: " + comment;
+    context.addComment("trailing", comment);
+    context.replaceWith(t.noop());
+  }
+
   return new Plugin("flow-comments", {
     visitor: {
       // support function a(b?) {}
@@ -13,12 +21,14 @@ export default function ({ Plugin, types: t }) {
         if (t.isExportNamedDeclaration(node) && !t.isFlow(node.declaration)) {
           return;
         }
-        var comment = this.getSource().replace("*/","//");
-        if (parent.optional) comment = "?" + comment;
-        if (comment[0] !== ":") comment = ":: " + comment;
-        this.addComment("trailing", comment);
-        this.replaceWith(t.noop());
-      }
+        wrapInFlowComment(this, parent);
+      },
+      "ImportDeclaration|Flow"(node, parent, scope, file) {
+        if (t.isImportDeclaration(node) && node.importKind !== "type" && node.importKind !== "typeof") {
+          return;
+        }
+        wrapInFlowComment(this, parent);
+      },
     }
   });
 }
