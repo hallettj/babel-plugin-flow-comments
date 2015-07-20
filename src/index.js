@@ -1,6 +1,6 @@
 export default function ({ Plugin, types: t }) {
   function wrapInFlowComment(context, parent) {
-    var comment = context.getSource().replace("*/","//");
+    var comment = context.getSource().replace(/\*-\//g, '*-ESCAPED/').replace(/\*\//g, '*-/');
     if (parent.optional) comment = "?" + comment;
     if (comment[0] !== ":") comment = ":: " + comment;
     context.addComment("trailing", comment);
