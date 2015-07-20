@@ -17,6 +17,9 @@ function foo(x: number): string {}
 type B = {
   name: string;
 };
+export type GraphQLFormattedError = number;
+import type A, { B, C } from './types';
+import typeof D, { E, F } from './types';
 ```
 
 **Out**
@@ -30,6 +33,9 @@ function foo(x /*: number*/) /*: string*/ {}
 /*:: type B = {
   name: string;
 };*/
+/*:: export type GraphQLFormattedError = number;*/
+/*:: import type A, { B, C } from './types';*/
+/*:: import typeof D, { E, F } from './types';*/
 ```
 
 ## Installation
