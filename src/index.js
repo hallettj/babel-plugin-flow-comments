@@ -23,7 +23,8 @@ export default function ({ Plugin, types: t }) {
         }
         wrapInFlowComment(this, parent);
       },
-      "ImportDeclaration|Flow"(node, parent, scope, file) {
+      // support `import type A` and `import typeof A` #10
+      "ImportDeclaration"(node, parent, scope, file) {
         if (t.isImportDeclaration(node) && node.importKind !== "type" && node.importKind !== "typeof") {
           return;
         }
