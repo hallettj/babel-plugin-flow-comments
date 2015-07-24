@@ -26,6 +26,16 @@ export default function ({ Plugin, types: t }) {
         this.addComment("trailing", ":: ?");
       },
 
+      // strip optional property from function params - facebook/fbjs#17
+      Function: {
+        exit(node) {
+          for (var i = 0; i < node.params.length; i++) {
+            var param = node.params[i];
+            param.optional = false;
+          }
+        }
+      },
+
       // support `export type a = {}` - #8 Error: You passed path.replaceWith() a falsy node
       "ExportNamedDeclaration|Flow"(node, parent, scope, file) {
         if (t.isExportNamedDeclaration(node) && !t.isFlow(node.declaration)) {
