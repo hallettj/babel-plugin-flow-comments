@@ -1,14 +1,23 @@
 export default function ({ Plugin, types: t }) {
   function wrapInFlowComment(context, parent) {
-    var comment = context.getSource().replace(/\*-\//g, "*-ESCAPED/").replace(/\*\//g, "*-/");
-    if (parent.optional) comment = "?" + comment;
-    if (comment[0] !== ":") comment = ":: " + comment;
-    context.addComment("trailing", comment);
+    context.addComment("trailing", generateComment(context, parent));
     context.replaceWith(t.noop());
+  }
+
+  function generateComment(context, parent) {
+    var comment = context.getSource().replace(/\*-\//g, "*-ESCAPED/").replace(/\*\//g, "*-/");
+    if (parent && parent.optional) comment = "?" + comment;
+    if (comment[0] !== ":") comment = ":: " + comment;
+    return comment;
   }
 
   return new Plugin("flow-comments", {
     visitor: {
+      TypeCastExpression(node) {
+        this.get("expression").addComment("trailing", generateComment(this.get("typeAnnotation")));
+        this.replaceWith(t.parenthesizedExpression(node.expression));
+      },
+
       // support function a(b?) {}
       Identifier(node, parent, scope, file) {
         if (!node.optional || node.typeAnnotation) {
