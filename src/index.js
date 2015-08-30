@@ -11,6 +11,31 @@ export default function ({ Plugin, types: t }) {
     return comment;
   }
 
+  function classDeclaration(context, node) {
+    return ":: declare " + classHierarchy(context, node) + " {\n  " +
+      classMembers(context, node).join("\n  ") +
+      "\n}";
+  }
+
+  function classHierarchy(context, node) {
+    return context.getSource().slice(node.id.start - node.start, node.body.start - node.start).trim();
+  }
+
+  function classMembers(context, node) {
+    return node.body.body.map(function (member) {
+      if (member.type === "ClassProperty") {
+        return context.getSource().slice(member.start - node.start, member.end - node.end);
+      }
+      else if (member.type === "MethodDefinition") {
+        var func = member.value;
+        return context.getSource().slice(member.start - node.start, func.body.start - node.start).trim() + ";";
+      }
+      else {
+        return '';
+      }
+    });
+  }
+
   return new Plugin("flow-comments", {
     visitor: {
       TypeCastExpression(node) {
@@ -20,10 +45,13 @@ export default function ({ Plugin, types: t }) {
 
       // support function a(b?) {}
       Identifier(node, parent, scope, file) {
-        if (!node.optional || node.typeAnnotation) {
-          return;
+        if (parent.type === "ClassDeclaration") {
+          this.addComment("trailing", ":: Class<" + node.name + ">");
         }
-        this.addComment("trailing", ":: ?");
+        else if (node.optional && !node.typeAnnotation) {
+          // support function a(b?) {}
+          this.addComment("trailing", ":: ?");
+        }
       },
 
       // strip optional property from function params - facebook/fbjs#17
@@ -34,6 +62,10 @@ export default function ({ Plugin, types: t }) {
             param.optional = false;
           }
         }
+      },
+
+      Class(node) {
+        this.addComment("leading", classDeclaration(this, node));
       },
 
       // support `export type a = {}` - #8 Error: You passed path.replaceWith() a falsy node
