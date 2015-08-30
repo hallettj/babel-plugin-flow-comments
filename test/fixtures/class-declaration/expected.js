@@ -37,6 +37,8 @@ var Foo /*:: Class<Foo>*/ = (function () {
 exports.Foo = Foo;
 /*:: declare Bar<T> extends Foo<T> {
   shows(): [T,T];
+  get origVal(): T;
+  set origVal(val: T);
 }*/
 var Bar /*:: Class<Bar>*/ = (function (_Foo) {
   _inherits(Bar, _Foo);
@@ -51,6 +53,14 @@ var Bar /*:: Class<Bar>*/ = (function (_Foo) {
     key: "shows",
     value: function shows() /*: [T,T]*/ {
       return [this.val, this.val];
+    }
+  }, {
+    key: "origVal",
+    get: function get() /*: T*/ {
+      return this.val;
+    },
+    set: function set(val /*: T*/) {
+      this.val = val;
     }
   }]);
 
