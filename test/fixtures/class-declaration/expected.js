@@ -12,7 +12,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-/*:: declare Foo<T> {
+/*:: declare class Foo<T> {
   val: T;
   constructor(val: Array<T>);
   show(): T;
@@ -35,7 +35,7 @@ var Foo /*:: Class<Foo>*/ = (function () {
 })();
 
 exports.Foo = Foo;
-/*:: declare Bar<T> extends Foo<T> {
+/*:: declare class Bar<T> extends Foo<T> {
   shows(): [T,T];
   get origVal(): T;
   set origVal(val: T);

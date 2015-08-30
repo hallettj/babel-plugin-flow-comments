@@ -12,7 +12,7 @@ export default function ({ Plugin, types: t }) {
   }
 
   function classDeclaration(context, node) {
-    return ":: declare " + classHierarchy(context, node) + " {\n  " +
+    return ":: declare class " + classHierarchy(context, node) + " {\n  " +
       classMembers(context, node).join("\n  ") +
       "\n}";
   }
