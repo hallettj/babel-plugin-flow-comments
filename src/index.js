@@ -28,7 +28,11 @@ export default function ({ Plugin, types: t }) {
       }
       else if (member.type === "MethodDefinition") {
         var func = member.value;
-        return context.getSource().slice(member.start - node.start, func.body.start - node.start).trim() + ";";
+        var sig = context.getSource().slice(member.start - node.start, func.body.start - node.start).trim()
+        if (!func.returnType) {
+          sig = sig + ": void"
+        }
+        return sig + ";"
       }
       else {
         return '';

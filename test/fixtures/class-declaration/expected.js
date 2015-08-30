@@ -14,7 +14,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 /*:: declare class Foo<T> {
   val: T;
-  constructor(val: Array<T>);
+  constructor(val: Array<T>): void;
   show(): T;
 }*/
 var Foo /*:: Class<Foo>*/ = (function () {
@@ -38,7 +38,7 @@ exports.Foo = Foo;
 /*:: declare class Bar<T> extends Foo<T> {
   shows(): [T,T];
   get origVal(): T;
-  set origVal(val: T);
+  set origVal(val: T): void;
 }*/
 var Bar /*:: Class<Bar>*/ = (function (_Foo) {
   _inherits(Bar, _Foo);
