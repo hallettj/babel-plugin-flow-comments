@@ -1,22 +1,22 @@
 export class Foo<T> {
   val: T;
-  constructor(val: Array<T>) { this.val = val[0] }
+  constructor(val: Array<T>) { this.val = val[0]; }
   show(): T {
-    return this.val
+    return this.val;
   }
 }
 
 export class Bar<T> extends Foo<T> {
   shows(): [T,T] {
-    return [this.val, this.val]
+    return [this.val, this.val];
   }
   get origVal(): T {
-    return this.val
+    return this.val;
   }
   set origVal(val: T) {
-    this.val = val
+    this.val = val;
   }
   echo<A>(val: A): A {
-    return val
+    return val;
   }
 }

@@ -29,16 +29,14 @@ export default function ({ Plugin, types: t }) {
     return node.body.body.map(function (member) {
       if (member.type === "ClassProperty") {
         return context.getSource().slice(member.start - node.start, member.end - node.end);
-      }
-      else if (member.type === "MethodDefinition") {
+      } else if (member.type === "MethodDefinition") {
         var func = member.value;
         var sig = context.getSource().slice(member.start - node.start, func.body.start - node.start).trim()
         if (!func.returnType) {
           sig = sig + ": void"
         }
         return sig + ";"
-      }
-      else {
+      } else {
         return '';
       }
     });
@@ -78,13 +76,12 @@ export default function ({ Plugin, types: t }) {
         if (t.isExportNamedDeclaration(node) && !t.isFlow(node.declaration)) {
           return;
         }
-        var method = this.findParent(function(p) { return p.type === "MethodDefinition" });
+        var method = this.findParent(p => p.type === "MethodDefinition");
         if (method && method.node.kind !== "constructor") {
           // Method signatures may contain type variables that are not in scope
           // after transpiling.
-          removeFlowType(this)
-        }
-        else {
+          removeFlowType(this);
+        } else {
           wrapInFlowComment(this, parent);
         }
       },
