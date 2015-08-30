@@ -4,6 +4,10 @@ export default function ({ Plugin, types: t }) {
     context.replaceWith(t.noop());
   }
 
+  function removeFlowType(context) {
+    context.replaceWith(t.noop());
+  }
+
   function generateComment(context, parent) {
     var comment = context.getSource().replace(/\*-\//g, "*-ESCAPED/").replace(/\*\//g, "*-/");
     if (parent && parent.optional) comment = "?" + comment;
@@ -74,7 +78,15 @@ export default function ({ Plugin, types: t }) {
         if (t.isExportNamedDeclaration(node) && !t.isFlow(node.declaration)) {
           return;
         }
-        wrapInFlowComment(this, parent);
+        var method = this.findParent(function(p) { return p.type === "MethodDefinition" });
+        if (method && method.node.kind !== "constructor") {
+          // Method signatures may contain type variables that are not in scope
+          // after transpiling.
+          removeFlowType(this)
+        }
+        else {
+          wrapInFlowComment(this, parent);
+        }
       },
 
       // support `import type A` and `import typeof A` #10

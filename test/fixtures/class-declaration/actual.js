@@ -16,4 +16,7 @@ export class Bar<T> extends Foo<T> {
   set origVal(val: T) {
     this.val = val
   }
+  echo<A>(val: A): A {
+    return val
+  }
 }

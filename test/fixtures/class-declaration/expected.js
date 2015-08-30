@@ -26,7 +26,7 @@ var Foo = (function () {
 
   _createClass(Foo, [{
     key: "show",
-    value: function show() /*: T*/ {
+    value: function show() {
       return this.val;
     }
   }]);
@@ -39,6 +39,7 @@ exports.Foo = Foo;
   shows(): [T,T];
   get origVal(): T;
   set origVal(val: T): void;
+  echo<A>(val: A): A;
 }*/
 var Bar = (function (_Foo) {
   _inherits(Bar, _Foo);
@@ -51,15 +52,20 @@ var Bar = (function (_Foo) {
 
   _createClass(Bar, [{
     key: "shows",
-    value: function shows() /*: [T,T]*/ {
+    value: function shows() {
       return [this.val, this.val];
     }
   }, {
+    key: "echo",
+    value: function echo(val) {
+      return val;
+    }
+  }, {
     key: "origVal",
-    get: function get() /*: T*/ {
+    get: function get() {
       return this.val;
     },
-    set: function set(val /*: T*/) {
+    set: function set(val) {
       this.val = val;
     }
   }]);
