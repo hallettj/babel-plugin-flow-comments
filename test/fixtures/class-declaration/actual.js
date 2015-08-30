@@ -10,4 +10,10 @@ export class Bar<T> extends Foo<T> {
   shows(): [T,T] {
     return [this.val, this.val]
   }
+  get origVal(): T {
+    return this.val
+  }
+  set origVal(val: T) {
+    this.val = val
+  }
 }
