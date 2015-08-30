@@ -49,13 +49,10 @@ export default function ({ Plugin, types: t }) {
 
       // support function a(b?) {}
       Identifier(node, parent, scope, file) {
-        if (parent.type === "ClassDeclaration") {
-          this.addComment("trailing", ":: Class<" + node.name + ">");
+        if (!node.optional || node.typeAnnotation) {
+          return;
         }
-        else if (node.optional && !node.typeAnnotation) {
-          // support function a(b?) {}
-          this.addComment("trailing", ":: ?");
-        }
+        this.addComment("trailing", ":: ?");
       },
 
       // strip optional property from function params - facebook/fbjs#17

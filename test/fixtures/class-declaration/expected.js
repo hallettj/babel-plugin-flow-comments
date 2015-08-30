@@ -17,7 +17,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   constructor(val: Array<T>): void;
   show(): T;
 }*/
-var Foo /*:: Class<Foo>*/ = (function () {
+var Foo = (function () {
   function Foo /*:: <T>*/(val /*: Array<T>*/) {
     _classCallCheck(this, Foo);
 
@@ -40,7 +40,7 @@ exports.Foo = Foo;
   get origVal(): T;
   set origVal(val: T): void;
 }*/
-var Bar /*:: Class<Bar>*/ = (function (_Foo) {
+var Bar = (function (_Foo) {
   _inherits(Bar, _Foo);
 
   function Bar /*:: <T>*/() {
@@ -65,6 +65,6 @@ var Bar /*:: Class<Bar>*/ = (function (_Foo) {
   }]);
 
   return Bar;
-})(Foo /*:: Class<Foo>*/);
+})(Foo);
 
 exports.Bar = Bar;
